@@ -1,31 +1,32 @@
 <div class="container mx-auto py-4" wire:init="loadImages">
     <div class="container text-center mb-0"><a href="https://belair.bio/" target="_blank">
     <x-belairlogo width="200" height="100" class="mx-auto mb-0"/></a>
-    <p class="text-center mb-3">Cliquer sur une image pour la télécharger. Ou <a href="{{ route('download.all') }}" class="text-lavande_dark hover:text-violet">télécharger toutes les images sous forme d'un fichier .zip</a></p>
+    <p class="text-center  px-3 md:px-0 mb-3">Cliquer sur une image pour la télécharger. Ou <a href="{{ route('download.all') }}" class="text-lavande_dark hover:text-violet">télécharger toutes les images sous forme d'un fichier .zip</a></p>
 </div>
-        <div class="container mb-6"x-data x-init="$refs.searchInput.focus()">
+        <div class="container px-3 md:px-0 mb-6"x-data x-init="$refs.searchInput.focus()">
         <input wire:model.live="search"
             x-ref="searchInput"
                placeholder="Rechercher par nom de plante (sans accents)..."
                type="search"
                id="imageSearchInput"
-               class="block w-full bg-white glass focus:outline-none focus:bg-white focus:shadow text-gray-700 font-bold rounded-lg px-4 py-3"
+               class="block   w-full bg-white border-violet focus:ring-lavande  focus:outline-lavande focus:border-none focus:bg-white focus:shadow text-gray-500 small rounded-lg px-4 py-3"
         />
        </div>
 
     @if ($readyToLoad)
-        <ul class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-6 gap-4 list-none">
+        <ul class="px-3 md:px-0 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-6 gap-4 list-none">
             @foreach ($filteredImages as $item)
-                <li class="text-center" x-data="{ loaded: false }">
+                <li class="text-center " x-data="{ loaded: false }">
                     <a title="{{ strtoupper($item['plante']) }} - {{ $item['produit'] }} {{ $item['meta'] ? ' - ' . $item['meta'] : '' }}"
                        target="_blank"
+                       class="flex p-3 rounded gap-3 md:block items-center hover:bg-opacity-80 bg-opacity-50 bg-white"
                        href="{{ route('download.image', ['file' => $item['image']]) }}">
-                        <img class="img-fluid transition-opacity duration-500"
+                        <img class="img-fluid mx-auto transition-opacity duration-500"
                              :class="{ 'opacity-0': !loaded }"
                              src="{{ $item['thumb'] }}"
                              alt="{{ strtoupper($item['plante']) }} - {{ $item['produit'] }} {{ $item['meta'] ? ' - ' . $item['meta'] : '' }}"
                              @load="loaded = true">
-                        <span class="block text-uppercase">{{ strtoupper($item['plante']) }} - {{ $item['produit'] }} {{ $item['meta'] ? ' - ' . $item['meta'] : '' }}</span>
+                        <span class="block hover:underline text-left md:text-center text-uppercase">{{ strtoupper($item['plante']) }} - {{ $item['produit'] }} {{ $item['meta'] ? ' - ' . $item['meta'] : '' }}</span>
                     </a>
                 </li>
             @endforeach
